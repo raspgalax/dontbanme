@@ -20,11 +20,11 @@
   </style>
 </head>
 <body>
-  <h2>Generate 150x150 PNG with Centered Text</h2>
+  <h2>Generate your Brat album cover</h2>
   <input type="text" id="textInput" placeholder="Enter your text">
-  <button onclick="generateImage()">Generate PNG</button>
-  <a id="downloadLink" style="display:none;" download="image.png">Download PNG</a>
-  <canvas id="canvas" width="150" height="150"></canvas>
+  <button onclick="generateImage()">Generate cover</button>
+  <a id="downloadLink" style="display:none;" download="album.png">Download PNG</a>
+  <canvas id="canvas" width="300" height="300"></canvas>
 
   <script>
     function generateImage() {
@@ -41,7 +41,7 @@
 
       // Set text styles
       ctx.fillStyle = 'black';
-      ctx.font = '30px Arial-narrow-bold';
+      ctx.font = '60px Arial-narrow-bold';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
