@@ -1,7 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PNG Text Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    canvas {
+      display: block;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <h2>Generate 150x150 PNG with Centered Text</h2>
+  <input type="text" id="textInput" placeholder="Enter your text">
+  <button onclick="generateImage()">Generate PNG</button>
+  <a id="downloadLink" style="display:none;" download="image.png">Download PNG</a>
+  <canvas id="canvas" width="150" height="150"></canvas>
+
+  <script>
+    function generateImage() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const text = document.getElementById('textInput').value;
+
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Optional: white background
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Set text styles
+      ctx.fillStyle = 'black';
+      ctx.font = '16px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // Draw text
+      ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+      // Prepare download link
+      const downloadLink = document.getElementById('downloadLink');
+      downloadLink.href = canvas.toDataURL('image/png');
+      downloadLink.style.display = 'inline-block';
+      downloadLink.textContent = 'Download PNG';
+    }
+  </script>
 </body>
 </html>
