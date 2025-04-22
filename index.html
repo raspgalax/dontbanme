@@ -25,10 +25,10 @@
     .choice-btn:hover {
       background-color: #5a5a8c;
     }
-    .fox-img {
+    .img {
       width: 100%;
       margin-top: 1rem;
-      border: 3px solid #fff;
+      border: none;
     }
   </style>
 </head>
@@ -45,8 +45,8 @@
       if (imageSrc) {
         const img = document.createElement('img');
         img.src = imageSrc;
-        img.alt = 'Fox';
-        img.className = 'fox-img';
+        img.alt = 'Forest of Mysteries';
+        img.className = 'img';
         gameDiv.appendChild(img);
       }
 
@@ -77,8 +77,8 @@
 
     function goLeft() {
       showMessage("You meet a talking fox. What do you do?", [
-        { text: 'Talk to the fox', action: () => showMessage("The fox gives you a golden key and disappears. You win!", [], true) },
-        { text: 'Ignore the fox', action: () => showMessage("The fox curses you for your rudeness. You turn into a tree. Game over!", [], true) }
+        { text: 'Talk to the fox', action: () => showMessage("The fox gives you a golden key and disappears. You win!", '/img/fox_key.png', true) },
+        { text: 'Ignore the fox', action: () => showMessage("The fox curses you for your rudeness. You turn into a tree. Game over!", '/img/fox_curse.png', true) }
       ], false, '/img/fox_meet.png');
     }
 
