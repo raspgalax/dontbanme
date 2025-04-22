@@ -1,118 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>PNG Text Generator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text Adventure</title>
   <style>
     body {
-      font-family: Arial-narrow-bold, sans-serif;
-      padding: 20px;
-      margin: 0;
-      background-color: #f4f4f4;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .container {
-      max-width: 500px;
+      font-family: Arial, sans-serif;
+      background-color: #1e1e2f;
+      color: #fff;
+      padding: 2rem;
+      max-width: 600px;
       margin: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
     }
-
-    input, button {
-      padding: 12px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    button {
-      background-color: #8ACE00;
-      color: black;
-      font-weight: bold;
+    .choice-btn {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #3e3e5e;
+      color: white;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
     }
-
-    button:hover {
-      background-color: #7abf00;
-    }
-
-    canvas {
-      width: 100%;
-      height: auto;
-      border: 1px solid #ccc;
-      margin-top: 10px;
-    }
-
-    a#downloadLink {
-      text-align: center;
-      display: block;
-      margin-top: 10px;
-      color: #333;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-
-      input, button {
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      canvas {
-        width: 100%;
-        height: auto;
-      }
+    .choice-btn:hover {
+      background-color: #5a5a8c;
     }
   </style>
 </head>
 <body>
-  <h2>Generate your Brat album cover</h2>
-  <div class="container">
-    <input type="text" id="textInput" placeholder="Enter your text">
-    <button onclick="generateImage()">Generate cover</button>
-    <a id="downloadLink" style="display:none;" download="album.png">Download PNG</a>
-    <canvas id="canvas" width="300" height="300"></canvas>
-  </div>
+  <h1>Forest of Mysteries</h1>
+  <div id="game"></div>
 
   <script>
-    function generateImage() {
-      const canvas = document.getElementById('canvas');
-      const ctx = canvas.getContext('2d');
-      const text = document.getElementById('textInput').value;
+    const gameDiv = document.getElementById('game');
 
-      // Clear canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Background color
-      ctx.fillStyle = '#8ACE00';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Text settings
-      ctx.fillStyle = 'black';
-      ctx.font = 'bold 60px Arial-narrow';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-
-      // Draw text
-      ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-
-      // Prepare download link
-      const downloadLink = document.getElementById('downloadLink');
-      downloadLink.href = canvas.toDataURL('image/png');
-      downloadLink.style.display = 'inline-block';
-      downloadLink.textContent = 'Download PNG';
+    function showMessage(message, choices = []) {
+      gameDiv.innerHTML = `<p>${message}</p>`;
+      choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.textContent = choice.text;
+        btn.className = 'choice-btn';
+        btn.onclick = choice.action;
+        gameDiv.appendChild(btn);
+      });
     }
+
+    function startGame() {
+      const name = prompt("What is your name, adventurer?");
+      showMessage(`Greetings, ${name}! You find yourself at a fork in the forest path. Do you go left or right?`, [
+        { text: 'Go Left', action: goLeft },
+        { text: 'Go Right', action: goRight }
+      ]);
+    }
+
+    function goLeft() {
+      showMessage("You meet a talking fox. What do you do?", [
+        { text: 'Talk to the fox', action: () => showMessage("The fox gives you a golden key and disappears. You win!") },
+        { text: 'Ignore the fox', action: () => showMessage("The fox curses you for your rudeness. You turn into a tree. Game over!") }
+      ]);
+    }
+
+    function goRight() {
+      showMessage("You stumble upon an old cabin. What do you do?", [
+        { text: 'Enter the cabin', action: () => showMessage("Inside, you find a treasure chest filled with gold. You win!") },
+        { text: 'Walk past', action: () => showMessage("You get lost in the woods and are never seen again. Game over!") }
+      ]);
+    }
+
+    startGame();
   </script>
+</body>
+</html>
 </body>
 </html>
