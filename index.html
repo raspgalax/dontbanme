@@ -13,7 +13,7 @@
       max-width: 600px;
       margin: auto;
     }
-    .choice-btn {
+    .choice-btn, .start-btn {
       margin-top: 1rem;
       padding: 0.5rem 1rem;
       background-color: #3e3e5e;
@@ -22,13 +22,21 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    .choice-btn:hover {
+    .choice-btn:hover, .start-btn:hover {
       background-color: #5a5a8c;
     }
-    .img {
+    .scene-img {
       width: 100%;
       margin-top: 1rem;
-      border: none;
+      border: 3px solid #fff;
+    }
+    input[type="text"] {
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: calc(100% - 1rem);
+      margin-top: 1rem;
+      display: block;
     }
   </style>
 </head>
@@ -38,6 +46,7 @@
 
   <script>
     const gameDiv = document.getElementById('game');
+    let playerName = '';
 
     function showMessage(message, choices = [], includeRestart = false, imageSrc = null) {
       gameDiv.innerHTML = `<p>${message}</p>`;
@@ -45,8 +54,8 @@
       if (imageSrc) {
         const img = document.createElement('img');
         img.src = imageSrc;
-        img.alt = 'Forest of Mysteries';
-        img.className = 'img';
+        img.alt = 'Scene';
+        img.className = 'scene-img';
         gameDiv.appendChild(img);
       }
 
@@ -62,34 +71,46 @@
         const restartBtn = document.createElement('button');
         restartBtn.textContent = 'Start Again';
         restartBtn.className = 'choice-btn';
-        restartBtn.onclick = startGame;
+        restartBtn.onclick = showIntro;
         gameDiv.appendChild(restartBtn);
       }
     }
 
+    function showIntro() {
+      gameDiv.innerHTML = `
+        <p>Welcome adventurer! What is your name?</p>
+        <input type="text" id="nameInput" placeholder="Enter your name" />
+        <button class="start-btn" onclick="startGame()">Start Adventure</button>
+        <img src="/img/forest_intro.png" alt="Intro Scene" class="scene-img">
+      `;
+    }
+
     function startGame() {
-      const name = prompt("What is your name, adventurer?");
-      showMessage(`Greetings, ${name}! You find yourself at a fork in the forest path. Do you go left or right?`, [
-        { text: 'Go Left', action: goLeft },
-        { text: 'Go Right', action: goRight }
-      ], false, '/img/forest_intro.png');
+      const input = document.getElementById('nameInput');
+      if (input && input.value.trim() !== '') {
+        playerName = input.value.trim();
+        showMessage(`Greetings, ${playerName}! You find yourself at a fork in the forest path. Do you go left or right?`, [
+          { text: 'Go Left', action: goLeft },
+          { text: 'Go Right', action: goRight }
+        ], false, '/img/forest_fork.png');
+      }
     }
 
     function goLeft() {
       showMessage("You meet a talking fox. What do you do?", [
-        { text: 'Talk to the fox', action: () => showMessage("The fox gives you a golden key and disappears. You win!", '/img/fox_key.png', true) },
-        { text: 'Ignore the fox', action: () => showMessage("The fox curses you for your rudeness. You turn into a tree. Game over!", '/img/fox_curse.png', true) }
+        { text: 'Talk to the fox', action: () => showMessage("The fox gives you a golden key and disappears. You win!", [], true, '/img/fox_key.png') },
+        { text: 'Ignore the fox', action: () => showMessage("The fox curses you for your rudeness. You turn into a tree. Game over!", [], true, '/img/fox_curse.png') }
       ], false, '/img/fox_meet.png');
     }
 
     function goRight() {
       showMessage("You stumble upon an old cabin. What do you do?", [
-        { text: 'Enter the cabin', action: () => showMessage("Inside, you find a treasure chest filled with gold. You win!", [], true) },
-        { text: 'Walk past', action: () => showMessage("You get lost in the woods and are never seen again. Game over!", [], true) }
-      ]);
+        { text: 'Enter the cabin', action: () => showMessage("Inside, you find a treasure chest filled with gold. You win!", [], true, '/img/cabin_gold.png') },
+        { text: 'Walk past', action: () => showMessage("You get lost in the woods and are never seen again. Game over!", [], true, '/img/cabin_lost.png') }
+      ], false, '/img/cabin_outer.png');
     }
 
-    startGame();
+    showIntro();
   </script>
 </body>
 </html>
